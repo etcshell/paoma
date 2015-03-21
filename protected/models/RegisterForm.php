@@ -12,7 +12,7 @@ class RegisterForm extends CFormModel
 	public $password;
 	public $repassword;
 	public $verifyCode;
-
+	public $gender;
 	private $_identity;
 
 	/**
@@ -23,10 +23,12 @@ class RegisterForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('email,password,repassword,name,verifyCode', 'required'),
-            array('password', 'match','pattern'=>'/^[\w_]{4,16}$/','message'=>'密码格式不正确！'),
+			array('email,password,name,gender', 'required'),
+			array('email','email','message'=>'邮箱格式错误'),
+			array('email','authenticate','message'=>'该邮箱已被注册'),
+			array('password', 'length', 'max'=>22, 'min'=>6, 'tooLong'=>'密码请输入长度为6-22位字符', 'tooShort'=>'密码请输入长度为6-22位字符'),
             array('repassword','compare','compareAttribute'=>'password','message'=>'两次密码必须一致'),
-            array('verifyCode','captcha','message'=>'验证码不正确'),
+            //array('verifyCode','captcha','message'=>'验证码不正确'),
 		);
 	}
 
@@ -84,8 +86,17 @@ class RegisterForm extends CFormModel
      */
     public function save()
     { 
-        $user = new User();
-        $user->attributes = $this->attributes;
-        return $user->save();
+    	$err = $this->getErrors();
+    	if(empty($err)){
+    		$user = new User();
+	        $user->attributes = $this->attributes;
+	        if($user->save()){
+	        	return true;
+	        }else{
+	        	return false;
+	        }
+    	}else{
+    		return false;
+    	}
     }
 }

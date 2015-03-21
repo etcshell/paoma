@@ -34,31 +34,21 @@
 				<a href="<?php echo Yii::app()->request->baseUrl;?>#" class="uk-navbar-toggle" data-uk-offcanvas="{target:&#39;#tablet-menu&#39;}"></a>
 			</div>
 			<div class="uk-float-right header-buttons">
-				<div class="dropdown"><span class="old"><select class="currency-dropdown">
-					<option value="AUD">AUD</option>
-					<option value="CAD">CAD</option>
-					<option value="EUR">EUR</option>
-					<option value="GBP">GBP</option>
-					<option value="NZD">NZD</option>
-					<option value="USD">USD</option>
-					<option value="JPY">JPY</option>
-					<option value="CHF">CHF</option>
-					<option value="ZAR">ZAR</option>
-					<option value="SGD">SGD</option>
-					<option value="AED">AED</option>
-					<option value="INR">INR</option>
-				</select></span><span class="selected">USD</span><span class="carat"></span><div><ul><li>AUD</li><li>CAD</li><li>EUR</li><li>GBP</li><li>NZD</li><li class="active">USD</li><li>JPY</li><li>CHF</li><li>ZAR</li><li>SGD</li><li>AED</li><li>INR</li></ul></div></div>
+		
 				<?php if(!Yii::app()->user->isGuest):?>
-				<a href="/myaccount/signout" title="Sign out of your account" class="uk-button uk-button-primary logout">
-					<i class="fa fa-sign-out"></i> Log Out
+				<a href="<?php echo $this->createUrl('/home/index');?>" title="Sign out of your account" class="uk-button uk-button-primary logout">
+					<i class="fa fa-user"></i>用户中心
+				</a> 
+				<a href="<?php echo $this->createUrl('/account/logout');?>" title="Sign out of your account" class="uk-button uk-button-primary logout">
+					<i class="fa fa-sign-out"></i>退出系统
 				</a>
 			<?php else:?>
-				<a href="https://www.citybaseapartments.com/myaccount" title="Sign in to your account" class="uk-button uk-button-primary login-drop">
+				<a href="<?php echo $this->createUrl('/account/login');?>" title="Sign in to your account" class="uk-button uk-button-primary login-drop">
 					<i class="fa fa-user"></i>用户登录
 				</a>
-				<p class="create-link uk-text-right">
-					<a href="https://www.citybaseapartments.com/myaccount#create-form" title="Create an account" class="signup-drop">注册</a>
-				</p>
+				<a href="<?php echo $this->createUrl('/account/register');?>" title="Sign out of your account" class="uk-button uk-button-primary logout signup-drop">
+					<i class="fa fa-sign-out"></i>注册
+				</a>
 				<?php endif;?>
 			</div>
 			<div class="affiliate-remove uk-float-right">

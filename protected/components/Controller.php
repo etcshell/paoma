@@ -26,4 +26,16 @@ class Controller extends CController
 		Yii::app()->clientScript->registerCoreScript('jquery');
 		Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/js/megafolio.js',CClientScript::POS_END);
 	}
+	public function actions()
+	{
+		return array(
+			// captcha action renders the CAPTCHA image displayed on the contact page
+			'captcha'=>array(
+				'class'=>'CCaptchaAction',
+				'backColor'=>0xFFFFFF,
+                'maxLength'=>4,       
+                'minLength'=>4,      
+			),
+		);
+	}
 }

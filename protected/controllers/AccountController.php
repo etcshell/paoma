@@ -13,7 +13,7 @@ class AccountController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
-	 function actions()
+	function actions()
 	{
 		return array(
 			// captcha action renders the CAPTCHA image displayed on the contact page
@@ -35,53 +35,31 @@ class AccountController extends Controller
 	 */
 	public function actionRegister()
 	{
-		$this->title = "注册-ICkey 云汉芯城 - 电子元器件一站式采购网 | 芯片 IC 交易";
 		$model = new RegisterForm();
 		if(isset($_POST['RegisterForm']))
 		{		
-			$model->isbbs = 0;
-			$_POST['RegisterForm']['code']=$model->makeCode();
 			$model->attributes = $_POST['RegisterForm'];
-			if(!empty($_POST['isbbs']))
-			$model->isbbs = $_POST['isbbs'];
-
-			if($model->validate()){
-				$from = $_POST['RegisterForm']['comFrom'];
-			    $id = $model->save();
-				if($id>0){
-					$remark='用户注册成功，系统赠送10个IC币';
-					Helper::updateIcCoin(1,$id,10,$remark);
-
-					//提供测试人员注册时有金额（暂时误删）开始：
-					$account = new UserAccount();
-			        $accountData = $account->findAll(array(
-			            'condition'=>'userId='.$id,
-			        ));
-			        // if(!empty($accountData)){
-			        // 	foreach($accountData as $value){
-			        //     $value->balance +=9000000;
-			        //     $value->limitMaxBalance+=9000000;
-			        //     $value->remark='测试';
-			        //     $value->createdTime=date('Y-m-d H:i:s',time());
-			        //     $value->save();
-			        // 	}
-			        // }
-			        //提供测试人员注册时有金额（暂时误删）结束；
-
-					foreach ($from as $key => $value) {
-						$comFrom = new UserComefrom();
-						$comFrom->userId = $id;
-						$comFrom->comeFrom= $value;
-						$comFrom->save();
-					}
-			} 
+			if($model->validate()&&$model->save()){
+				echo 33;
 				if($model->login()){
-					$this->actionFourfestival() ;	// 四周年抽奖
+					echo 444;
+					if($_GET['type']=='ajax'){
+						$msg = '';
+						echo json_encode(array('msg'=>'登录成功','err'=>0));
+						Yii::app()->end();
+					}
 					$this->redirect(Yii::app()->user->returnUrl);
 				} 
+			}else{
+				if($_GET['type']=='ajax')
+				{
+					echo CActiveForm::validate($model);
+					Yii::app()->end();
+				}
 			}
+			print_r($model->getErrors());
 		}
-		$this->render('register',array('model'=>$model,'comFrom'=>Yii::app()->params['comFrom']));
+		//$this->render('register',array('model'=>$model,'comFrom'=>Yii::app()->params['comFrom']));
 	}
 	/**
 	 * 登录系统
