@@ -11,7 +11,7 @@
                         	if(!hasError){  
                                 $.ajax({  
                                         "type":"POST",  
-                                        "url":"http://erp2.ickey.cn/account/login.html",  
+                                        "url":"",  
                                         "data":$("#login-form").serialize(),  
                                         "success":function(data){$("#searchResults").html(data);},  
                                         });  
